@@ -1,13 +1,15 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 
+import { Store } from '../reducers';
 import { floor, wall } from './draw';
 import { CELL_SIZE, MapData } from './types';
 
-interface ExternalProps {
+interface StateProps {
   mapData: MapData;
 }
 
-type Props = ExternalProps;
+type Props = StateProps;
 
 class Map extends React.PureComponent<Props> {
   private canvas: React.RefObject<HTMLCanvasElement>;
@@ -50,4 +52,10 @@ class Map extends React.PureComponent<Props> {
   }
 }
 
-export default Map;
+function mapStateToProps(state: Store): StateProps {
+  return {
+    mapData: state.map
+  }
+}
+
+export default connect(mapStateToProps)(Map);

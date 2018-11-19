@@ -29,7 +29,7 @@ class Map extends React.PureComponent<Props> {
 
   public render () {
     const { mapData } = this.props;
-    return <canvas ref={this.canvas} width={mapData.width * CELL_SIZE} height={mapData.height * CELL_SIZE}/>;
+    return <canvas ref={this.canvas} width={mapData.width * CELL_SIZE} height={mapData.height * CELL_SIZE} onClick={this.onClick}/>;
   }
 
   private redraw (oldProps: Props | null, props: Props) {
@@ -44,11 +44,13 @@ class Map extends React.PureComponent<Props> {
         } else {
           floor(ctx, x, y);
         }
-        /*
-        ctx.fillStyle = cell ? 'black' : 'white';
-        ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);*/
       })
     }
+  }
+
+  private onClick = (event: React.MouseEvent) => {
+    const bounds = this.canvas.current!.getBoundingClientRect();
+    alert(event.clientX - bounds.left);
   }
 }
 

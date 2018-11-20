@@ -1,5 +1,7 @@
 import { AnyAction, combineReducers } from 'redux';
-import { MapData } from './map/types';
+import { TOGGLE_CELL } from './actions';
+import { GridRef, MapData } from './map/types';
+import { gridRefToIndex } from './map/utils';
 
 export type Store = Readonly<{
   map: MapData,
@@ -27,7 +29,22 @@ const map: MapData = {
 }
 
 export function mapReducer(state: MapData = map, action: AnyAction){
-  return state;
+  switch (action.type) {
+    case TOGGLE_CELL:
+      const cellRef: GridRef = action.payload;
+      const index = gridRefToIndex(cellRef, state);
+      return {
+        ...state,
+        cells: state.cells.map((cell, cellIndex) => {
+          if (index === cellIndex) {
+            return !cell;
+          }
+          return cell;
+        })
+      }
+    default:
+      return state;
+  }
 }
 
 export default combineReducers<Store>({

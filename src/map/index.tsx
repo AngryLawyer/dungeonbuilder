@@ -1,15 +1,20 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import { toggleCell } from '../actions';
 import { Store } from '../reducers';
 import { floor, wall } from './draw';
-import { CELL_SIZE, MapData } from './types';
+import { CELL_SIZE, GridRef, MapData } from './types';
 
 interface StateProps {
   mapData: MapData;
 }
 
-type Props = StateProps;
+interface DispatchProps {
+  toggleCell: typeof toggleCell;
+}
+
+type Props = StateProps & DispatchProps;
 
 class Map extends React.PureComponent<Props> {
   private canvas: React.RefObject<HTMLCanvasElement>;
@@ -49,8 +54,17 @@ class Map extends React.PureComponent<Props> {
   }
 
   private onClick = (event: React.MouseEvent) => {
-    const bounds = this.canvas.current!.getBoundingClientRect();
-    alert(event.clientX - bounds.left);
+    const cell = this.getGridRefFromClick(this.canvas.current!, event);
+    this.props.toggleCell(cell);
+  }
+
+  private getGridRefFromClick(dom: HTMLElement, event: React.MouseEvent): GridRef {
+    const bounds = dom.getBoundingClientRect();
+    return {
+      x: Math.floor((event.clientX - bounds.left) / CELL_SIZE),
+      y: Math.floor((event.clientY - bounds.top) / CELL_SIZE),
+    }
+
   }
 }
 
@@ -60,4 +74,4 @@ function mapStateToProps(state: Store): StateProps {
   }
 }
 
-export default connect(mapStateToProps)(Map);
+export default connect(mapStateToProps, { toggleCell })(Map);

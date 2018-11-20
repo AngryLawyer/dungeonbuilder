@@ -5,3 +5,8 @@ export type MapData = Readonly<{
   height: number;
   cells: ReadonlyArray<boolean>
 }>;
+
+export type GridRef = Readonly<{
+  x: number;
+  y: number;
+}>;

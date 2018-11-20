@@ -1,0 +1,15 @@
+Plan:
+
+1. UI layout: menu system, edit pane, toolbox
+2. New Map: Modal, title
+3. Click and drag drawing
+4. Shapes: Square
+5. Shapes: Line
+6. Palette
+7. Wall tool
+8. Zooming
+9. Edit Title
+10. Point of Interest
+11. Point of Interest Properties
+12. Introduction
+13. Wandering Monsters

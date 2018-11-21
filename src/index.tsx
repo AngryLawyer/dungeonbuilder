@@ -4,6 +4,8 @@ import App from './App';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
+import 'foundation-sites/dist/css/foundation.min.css';
+
 ReactDOM.render(
   <App />,
   document.getElementById('root') as HTMLElement

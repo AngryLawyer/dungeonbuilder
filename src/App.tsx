@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Menu, MenuItem, MenuText, Row, TopBar, TopBarLeft }  from 'react-foundation';
 import { Provider } from 'react-redux';
 import './App.css';
 
 import Map from './map';
+import Menu from './menu';
 import store from './store';
 
 class App extends React.Component {
@@ -11,19 +11,7 @@ class App extends React.Component {
     return (
       <Provider store={store}>
         <div>
-          <TopBar>
-            <Row>
-              <TopBarLeft>
-                <Menu>
-                  <MenuItem>
-                    <MenuText>
-                      New
-                    </MenuText>
-                  </MenuItem>
-                </Menu>
-              </TopBarLeft>
-            </Row>
-          </TopBar>
+          <Menu/>
           <Map/>
         </div>
       </Provider>

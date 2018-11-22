@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Modal from 'react-foundation-modal';
 import { Provider } from 'react-redux';
 import './App.css';
 
@@ -13,6 +14,13 @@ class App extends React.Component {
         <div>
           <Menu/>
           <Map/>
+          <Modal
+            open={true}
+            isModal={true}
+            size="medium"
+          >
+            Hi there
+          </Modal>
         </div>
       </Provider>
     );

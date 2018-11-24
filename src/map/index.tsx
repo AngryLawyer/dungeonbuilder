@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { setMousePos, toggleCell } from '../actions';
+import { mouseUp, setMousePos, toggleCell } from '../actions';
 import { Store } from '../reducers';
 import { cursor, floor, wall } from './draw';
 import { CELL_SIZE, GridRef, MapData, MouseState } from './types';
@@ -14,6 +14,7 @@ interface StateProps {
 interface DispatchProps {
   toggleCell: typeof toggleCell;
   setMousePos: typeof setMousePos;
+  mouseUp: typeof mouseUp;
 }
 
 type Props = StateProps & DispatchProps;
@@ -37,11 +38,12 @@ class Map extends React.PureComponent<Props> {
   public render () {
     const { mapData } = this.props;
     return <canvas
+      onMouseDown={this.onMouseDown}
+      onMouseUp={this.onMouseUp}
       onMouseMove={this.onMouseMove}
       ref={this.canvas}
       width={mapData.width * CELL_SIZE}
       height={mapData.height * CELL_SIZE}
-      onClick={this.onClick}
     />;
   }
 
@@ -64,9 +66,14 @@ class Map extends React.PureComponent<Props> {
     }
   }
 
-  private onClick = (event: React.MouseEvent) => {
+  private onMouseDown = (event: React.MouseEvent) => {
     const cell = this.getGridRefFromClick(this.canvas.current!, event);
     this.props.toggleCell(cell);
+  }
+
+  private onMouseUp = (event: React.MouseEvent) => {
+    // const cell = this.getGridRefFromClick(this.canvas.current!, event);
+    this.props.mouseUp();
   }
 
   private getGridRefFromClick(dom: HTMLElement, event: React.MouseEvent): GridRef {
@@ -93,4 +100,4 @@ function mapStateToProps(state: Store): StateProps {
   }
 }
 
-export default connect(mapStateToProps, { setMousePos, toggleCell })(Map);
+export default connect(mapStateToProps, { setMousePos, toggleCell, mouseUp })(Map);

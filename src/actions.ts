@@ -32,3 +32,11 @@ export function setMousePos(ref: GridRef) {
     type: SET_MOUSE_POS,
   };
 }
+
+export const MOUSE_UP = 'MOUSE_UP';
+
+export function mouseUp() {
+  return {
+    type: MOUSE_UP,
+  };
+}

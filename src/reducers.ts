@@ -1,10 +1,15 @@
 import { AnyAction, combineReducers } from 'redux';
-import { TOGGLE_CELL } from './actions';
+import {
+  CLOSE_MODAL,
+  OPEN_MODAL,
+  TOGGLE_CELL
+} from './actions';
 import { GridRef, MapData } from './map/types';
 import { gridRefToIndex } from './map/utils';
 
 export type Store = Readonly<{
   map: MapData,
+  modal: boolean,
 }>;
 
 function repeat<T>(limit:number, item: T): T[] {
@@ -28,7 +33,7 @@ const map: MapData = {
   width: 10,
 }
 
-export function mapReducer(state: MapData = map, action: AnyAction){
+export function mapReducer(state: MapData = map, action: AnyAction) {
   switch (action.type) {
     case TOGGLE_CELL:
       const cellRef: GridRef = action.payload;
@@ -47,6 +52,18 @@ export function mapReducer(state: MapData = map, action: AnyAction){
   }
 }
 
+export function modalReducer(state: boolean = false, action: AnyAction) {
+  switch (action.type) {
+    case OPEN_MODAL:
+      return true;
+    case CLOSE_MODAL:
+      return false;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers<Store>({
   map: mapReducer,
+  modal: modalReducer,
 });

@@ -1,30 +1,40 @@
 import * as React from 'react';
 import Modal from 'react-foundation-modal';
-import { Provider } from 'react-redux';
+import { connect } from 'react-redux';
 import './App.css';
 
 import Map from './map';
 import Menu from './menu';
-import store from './store';
+import { Store } from './reducers';
 
-class App extends React.Component {
+interface ConnectedProps {
+  modal: boolean;
+}
+
+type Props = ConnectedProps;
+
+class App extends React.PureComponent<Props> {
   public render() {
     return (
-      <Provider store={store}>
-        <div>
-          <Menu/>
-          <Map/>
-          <Modal
-            open={true}
-            isModal={true}
-            size="medium"
-          >
-            Hi there
-          </Modal>
-        </div>
-      </Provider>
+      <div>
+        <Menu/>
+        <Map/>
+        <Modal
+          open={this.props.modal}
+          isModal={true}
+          size="medium"
+        >
+          Hi there
+        </Modal>
+      </div>
     );
   }
 }
 
-export default App;
+function mapStateToProps(store: Store): ConnectedProps {
+  return {
+    modal: store.modal,
+  }
+}
+
+export default connect(mapStateToProps)(App);

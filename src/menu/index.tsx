@@ -1,7 +1,16 @@
 import * as React from 'react';
 import { Menu as FoundationMenu, MenuItem, MenuText, Row, TopBar, TopBarLeft }  from 'react-foundation';
+import { connect } from 'react-redux';
 
-export default class Menu extends React.PureComponent {
+import { openModal } from '../actions';
+
+interface DispatchProps {
+  openModal: typeof openModal;
+}
+
+type Props = DispatchProps;
+
+export class Menu extends React.PureComponent<Props> {
   public render () {
     return (
       <TopBar>
@@ -14,7 +23,7 @@ export default class Menu extends React.PureComponent {
                 </MenuText>
               </MenuItem>
               <MenuItem>
-                <a>
+                <a onClick={this.props.openModal}>
                   New
                 </a>
               </MenuItem>
@@ -25,3 +34,5 @@ export default class Menu extends React.PureComponent {
     );
   }
 }
+
+export default connect(null, { openModal })(Menu);

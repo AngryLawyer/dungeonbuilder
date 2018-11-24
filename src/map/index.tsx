@@ -34,7 +34,7 @@ class Map extends React.PureComponent<Props> {
 
   public render () {
     const { mapData } = this.props;
-    return <canvas ref={this.canvas} width={mapData.width * CELL_SIZE} height={mapData.height * CELL_SIZE} onClick={this.onClick}/>;
+    return <canvas onMouseMove={this.onMouseMove} ref={this.canvas} width={mapData.width * CELL_SIZE} height={mapData.height * CELL_SIZE} onClick={this.onClick}/>;
   }
 
   private redraw (oldProps: Props | null, props: Props) {
@@ -64,7 +64,9 @@ class Map extends React.PureComponent<Props> {
       x: Math.floor((event.clientX - bounds.left) / CELL_SIZE),
       y: Math.floor((event.clientY - bounds.top) / CELL_SIZE),
     }
+  }
 
+  private onMouseMove = (event: React.MouseEvent) => {
   }
 }
 

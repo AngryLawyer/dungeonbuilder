@@ -4,12 +4,13 @@ import {
   OPEN_MODAL,
   TOGGLE_CELL
 } from './actions';
-import { GridRef, MapData } from './map/types';
+import { GridRef, MapData, MouseState } from './map/types';
 import { gridRefToIndex } from './map/utils';
 
 export type Store = Readonly<{
   map: MapData,
   modal: boolean,
+  mouse: MouseState,
 }>;
 
 function repeat<T>(limit:number, item: T): T[] {
@@ -22,15 +23,15 @@ function repeat<T>(limit:number, item: T): T[] {
   return data;
 }
 
-const cellData = repeat(50 * 50, true);
+const cellData = repeat(25 * 25, true);
 cellData[5] = false;
 cellData[6] = false;
 cellData[16] = false;
 
 const map: MapData = {
   cells: cellData,
-  height: 50,
-  width: 50,
+  height: 25,
+  width: 25,
 }
 
 export function mapReducer(state: MapData = map, action: AnyAction) {
@@ -63,7 +64,12 @@ export function modalReducer(state: boolean = false, action: AnyAction) {
   }
 }
 
+export function mouseReducer(state: MouseState = { current: null, mouseDown: null }, action: AnyAction) {
+  return state;
+}
+
 export default combineReducers<Store>({
   map: mapReducer,
   modal: modalReducer,
+  mouse: mouseReducer,
 });

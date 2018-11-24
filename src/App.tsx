@@ -20,11 +20,11 @@ class App extends React.PureComponent<Props> {
       <div>
         <Menu/>
         <Row>
-          <Column large={6}>
+          <Column large={8}>
             <Map/>
           </Column>
-          <Column large={6}>
-            <Map/>
+          <Column large={4}>
+            FILL ME
           </Column>
         </Row>
         <Modal

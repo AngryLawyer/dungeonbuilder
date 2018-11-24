@@ -12,7 +12,8 @@
     "react-foundation-modal": "^0.1.5",
     "react-redux": "^5.1.1",
     "react-scripts-ts": "3.1.0",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "reselect": "^4.0.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",

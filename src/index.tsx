@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import App from './App';
 import store from './store';
 
-import 'foundation-sites/dist/css/foundation.min.css';
+import 'foundation-sites/dist/css/foundation-float.min.css';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 

@@ -22,15 +22,15 @@ function repeat<T>(limit:number, item: T): T[] {
   return data;
 }
 
-const cellData = repeat(100, true);
+const cellData = repeat(50 * 50, true);
 cellData[5] = false;
 cellData[6] = false;
 cellData[16] = false;
 
 const map: MapData = {
   cells: cellData,
-  height: 10,
-  width: 10,
+  height: 50,
+  width: 50,
 }
 
 export function mapReducer(state: MapData = map, action: AnyAction) {

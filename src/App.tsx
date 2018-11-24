@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Column, Row } from 'react-foundation';
 import Modal from 'react-foundation-modal';
 import { connect } from 'react-redux';
 import './App.css';
@@ -18,7 +19,14 @@ class App extends React.PureComponent<Props> {
     return (
       <div>
         <Menu/>
-        <Map/>
+        <Row>
+          <Column large={6}>
+            <Map/>
+          </Column>
+          <Column large={6}>
+            <Map/>
+          </Column>
+        </Row>
         <Modal
           open={this.props.modal}
           isModal={true}

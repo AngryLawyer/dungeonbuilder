@@ -1,17 +1,19 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { toggleCell } from '../actions';
+import { setMousePos, toggleCell } from '../actions';
 import { Store } from '../reducers';
-import { floor, wall } from './draw';
-import { CELL_SIZE, GridRef, MapData } from './types';
+import { cursor, floor, wall } from './draw';
+import { CELL_SIZE, GridRef, MapData, MouseState } from './types';
 
 interface StateProps {
   mapData: MapData;
+  mouse: MouseState;
 }
 
 interface DispatchProps {
   toggleCell: typeof toggleCell;
+  setMousePos: typeof setMousePos;
 }
 
 type Props = StateProps & DispatchProps;
@@ -25,26 +27,35 @@ class Map extends React.PureComponent<Props> {
   }
 
   public componentDidMount() {
-    this.redraw(null, this.props);
+    this.redraw(this.props, null);
   }
 
-  public componentDidUpdate(oldProps: Props, props: Props) {
-    this.redraw(oldProps, props);
+  public componentDidUpdate(oldProps: Props | null) {
+    this.redraw(this.props, oldProps);
   }
 
   public render () {
     const { mapData } = this.props;
-    return <canvas onMouseMove={this.onMouseMove} ref={this.canvas} width={mapData.width * CELL_SIZE} height={mapData.height * CELL_SIZE} onClick={this.onClick}/>;
+    return <canvas
+      onMouseMove={this.onMouseMove}
+      ref={this.canvas}
+      width={mapData.width * CELL_SIZE}
+      height={mapData.height * CELL_SIZE}
+      onClick={this.onClick}
+    />;
   }
 
-  private redraw (oldProps: Props | null, props: Props) {
+  private redraw (props: Props, oldProps: Props | null) {
     const ctx = this.canvas.current!.getContext('2d');
     if (ctx) {
-      const { mapData } = this.props;
+      const currentPos = props.mouse.current;
+      const { mapData } = props;
       mapData.cells.forEach((cell, index) => {
         const x = index % mapData.width;
         const y = Math.floor(index / mapData.height);
-        if (cell) {
+        if (currentPos && currentPos.x === x && currentPos.y === y) {
+          cursor(ctx, x, y);
+        } else if (cell) {
           wall(ctx, x, y);
         } else {
           floor(ctx, x, y);
@@ -67,13 +78,19 @@ class Map extends React.PureComponent<Props> {
   }
 
   private onMouseMove = (event: React.MouseEvent) => {
+    const cell = this.getGridRefFromClick(this.canvas.current!, event);
+    const currentPos = this.props.mouse.current;
+    if (!currentPos || cell.x !== currentPos.x || cell.y !== currentPos.y) {
+      this.props.setMousePos(cell);
+    }
   }
 }
 
 function mapStateToProps(state: Store): StateProps {
   return {
-    mapData: state.map
+    mapData: state.map,
+    mouse: state.mouse,
   }
 }
 
-export default connect(mapStateToProps, { toggleCell })(Map);
+export default connect(mapStateToProps, { setMousePos, toggleCell })(Map);

@@ -2,7 +2,8 @@ import { AnyAction, combineReducers } from 'redux';
 import {
   CLOSE_MODAL,
   OPEN_MODAL,
-  TOGGLE_CELL
+  SET_MOUSE_POS,
+  TOGGLE_CELL,
 } from './actions';
 import { GridRef, MapData, MouseState } from './map/types';
 import { gridRefToIndex } from './map/utils';
@@ -65,7 +66,15 @@ export function modalReducer(state: boolean = false, action: AnyAction) {
 }
 
 export function mouseReducer(state: MouseState = { current: null, mouseDown: null }, action: AnyAction) {
-  return state;
+  switch (action.type) {
+    case SET_MOUSE_POS:
+      return {
+        ...state,
+        current: action.payload,
+      };
+    default:
+      return state;
+  }
 }
 
 export default combineReducers<Store>({

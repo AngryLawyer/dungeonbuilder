@@ -17,11 +17,9 @@ export class Menu extends React.PureComponent<Props> {
         <Row>
           <TopBarLeft>
             <FoundationMenu>
-              <MenuItem>
-                <MenuText>
-                  Dungeonbuilder
-                </MenuText>
-              </MenuItem>
+              <MenuText>
+                Dungeonbuilder
+              </MenuText>
               <MenuItem>
                 <a onClick={this.props.openModal}>
                   New

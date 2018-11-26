@@ -2,11 +2,10 @@ import * as React from 'react';
 import { Column, Row } from 'react-foundation';
 import Modal from 'react-foundation-modal';
 import { connect } from 'react-redux';
-import './App.css';
 
-import Map from './map';
-import Menu from './menu';
-import { Store } from './reducers';
+import Map from '../map';
+import Menu from '../menu';
+import { Store } from '../reducers';
 
 interface ConnectedProps {
   modal: boolean;

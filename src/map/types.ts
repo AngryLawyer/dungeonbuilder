@@ -12,6 +12,6 @@ export type GridRef = Readonly<{
 }>;
 
 export type MouseState = Readonly<{
-  mouseDown: GridRef | null;
+  mouseDown: boolean;
   current: GridRef | null;
 }>;

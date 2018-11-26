@@ -1,8 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { mouseUp, setMousePos, toggleCell } from '../actions';
 import { Store } from '../reducers';
+import {
+  mouseDown,
+  mouseUp,
+  setCells,
+  setMousePos,
+} from './actions';
 import { cursor, floor, wall } from './draw';
 import { CELL_SIZE, GridRef, MapData, MouseState } from './types';
 
@@ -12,9 +17,10 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  toggleCell: typeof toggleCell;
+  setCells: typeof setCells;
   setMousePos: typeof setMousePos;
   mouseUp: typeof mouseUp;
+  mouseDown: typeof mouseDown;
 }
 
 type Props = StateProps & DispatchProps;
@@ -68,11 +74,11 @@ class Map extends React.PureComponent<Props> {
 
   private onMouseDown = (event: React.MouseEvent) => {
     const cell = this.getGridRefFromClick(this.canvas.current!, event);
-    this.props.toggleCell(cell);
+    this.props.setCells([cell], true);
+    this.props.mouseDown();
   }
 
   private onMouseUp = (event: React.MouseEvent) => {
-    // const cell = this.getGridRefFromClick(this.canvas.current!, event);
     this.props.mouseUp();
   }
 
@@ -89,15 +95,18 @@ class Map extends React.PureComponent<Props> {
     const currentPos = this.props.mouse.current;
     if (!currentPos || cell.x !== currentPos.x || cell.y !== currentPos.y) {
       this.props.setMousePos(cell);
+      if (this.props.mouse.mouseDown) {
+        this.props.setCells([cell], true);
+      }
     }
   }
 }
 
 function mapStateToProps(state: Store): StateProps {
   return {
-    mapData: state.map,
-    mouse: state.mouse,
+    mapData: state.map.map,
+    mouse: state.map.mouse,
   }
 }
 
-export default connect(mapStateToProps, { setMousePos, toggleCell, mouseUp })(Map);
+export default connect(mapStateToProps, { setMousePos, setCells, mouseDown, mouseUp })(Map);

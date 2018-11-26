@@ -8,7 +8,9 @@ import {
   setCells,
   setMousePos,
 } from './actions';
+import Brushes from './brushes';
 import { cursor, floor, wall } from './draw';
+import Tools from './tools';
 import { CELL_SIZE, GridRef, MapData, MouseState } from './types';
 
 interface StateProps {
@@ -43,14 +45,20 @@ class Map extends React.PureComponent<Props> {
 
   public render () {
     const { mapData } = this.props;
-    return <canvas
-      onMouseDown={this.onMouseDown}
-      onMouseUp={this.onMouseUp}
-      onMouseMove={this.onMouseMove}
-      ref={this.canvas}
-      width={mapData.width * CELL_SIZE}
-      height={mapData.height * CELL_SIZE}
-    />;
+    return (
+      <>
+        <canvas
+          onMouseDown={this.onMouseDown}
+          onMouseUp={this.onMouseUp}
+          onMouseMove={this.onMouseMove}
+          ref={this.canvas}
+          width={mapData.width * CELL_SIZE}
+          height={mapData.height * CELL_SIZE}
+        />
+        <Brushes/>
+        <Tools/>
+      </>
+    );
   }
 
   private redraw (props: Props, oldProps: Props | null) {

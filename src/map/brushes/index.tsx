@@ -1,17 +1,41 @@
 import * as React from 'react';
-import { Button, ButtonGroup } from 'react-foundation';
+import { ButtonGroup } from 'react-foundation';
 import { IoMdSquare, IoMdSquareOutline } from 'react-icons/io';
 import { connect } from 'react-redux';
 
-class Brushes extends React.PureComponent {
+import { Store } from '../../reducers';
+import { setBrush } from '../actions';
+import { BrushType } from '../types';
+import { Brush } from './brush';
+
+interface DispatchProps {
+  setBrush: typeof setBrush,
+}
+
+interface StateProps {
+  brush: BrushType,
+}
+
+type Props = DispatchProps & StateProps;
+
+class Brushes extends React.PureComponent<Props> {
   public render () {
     return (
       <ButtonGroup>
-        <Button><IoMdSquareOutline/></Button>
-        <Button><IoMdSquare/></Button>
+        {
+          [{element: IoMdSquareOutline, type: BrushType.FLOOR}, {element: IoMdSquare, type:BrushType.WALL}].map(brushData =>
+            <Brush key={brushData.type} element={brushData.element} brush={brushData.type} onClick={this.props.setBrush} selected={brushData.type === this.props.brush}/>
+          )
+        }
       </ButtonGroup>
     );
   }
 }
 
-export default connect()(Brushes);
+function mapStateToProps(store: Store): StateProps {
+  return {
+    brush: store.map.brush,
+  }
+}
+
+export default connect(mapStateToProps, { setBrush })(Brushes);

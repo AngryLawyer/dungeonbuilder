@@ -1,4 +1,4 @@
-import { GridRef } from './types';
+import { BrushType, GridRef } from './types';
 
 export const SET_CELLS = 'SET_CELLS';
 export function setCells(cells: ReadonlyArray<GridRef>, brushType: true) {
@@ -34,4 +34,12 @@ export function mouseDown() {
   return {
     type: MOUSE_DOWN,
   };
+}
+
+export const SET_BRUSH = 'SET_BRUSH';
+export function setBrush(brush: BrushType) {
+  return {
+    payload: brush,
+    type: SET_BRUSH,
+  }
 }

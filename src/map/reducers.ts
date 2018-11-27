@@ -3,13 +3,15 @@ import { repeat } from '../utils';
 import {
   MOUSE_DOWN,
   MOUSE_UP,
+  SET_BRUSH,
   SET_CELLS,
   SET_MOUSE_POS,
 } from './actions';
-import { GridRef, MapData, MouseState } from './types';
+import { BrushType, GridRef, MapData, MouseState } from './types';
 import { gridRefToIndex } from './utils';
 
 export type MapStore = Readonly<{
+  brush: BrushType,
   map: MapData,
   mouse: MouseState,
 }>;
@@ -62,7 +64,17 @@ export function mouseReducer(state: MouseState = { current: null, mouseDown: fal
   }
 }
 
+export function brushReducer(state: BrushType = BrushType.FLOOR, action: AnyAction) {
+  switch (action.type) {
+    case SET_BRUSH:
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers<MapStore>({
+  brush: brushReducer,
   map: mapReducer,
   mouse: mouseReducer,
 });

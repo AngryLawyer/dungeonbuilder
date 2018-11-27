@@ -15,3 +15,8 @@ export type MouseState = Readonly<{
   mouseDown: boolean;
   current: GridRef | null;
 }>;
+
+export enum BrushType {
+  WALL = 'WALL',
+  FLOOR = 'FLOOR',
+}

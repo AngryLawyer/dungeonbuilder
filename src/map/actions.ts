@@ -42,4 +42,5 @@ export function setBrush(brush: BrushType) {
     payload: brush,
     type: SET_BRUSH,
   };
+  }
 }

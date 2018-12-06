@@ -1,19 +1,11 @@
 import * as React from 'react';
 import { Column, Row } from 'react-foundation';
-import Modal from 'react-foundation-modal';
-import { connect } from 'react-redux';
 
 import Map from '../map';
 import Menu from '../menu';
-import { Store } from '../reducers';
+import Modals from '../modals';
 
-interface ConnectedProps {
-  modal: boolean;
-}
-
-type Props = ConnectedProps;
-
-class App extends React.PureComponent<Props> {
+export default class App extends React.PureComponent<{}> {
   public render() {
     return (
       <div>
@@ -26,22 +18,8 @@ class App extends React.PureComponent<Props> {
             FILL ME
           </Column>
         </Row>
-        <Modal
-          open={this.props.modal}
-          isModal={true}
-          size="medium"
-        >
-          Hi there
-        </Modal>
+        <Modals />
       </div>
     );
   }
 }
-
-function mapStateToProps(store: Store): ConnectedProps {
-  return {
-    modal: store.modal,
-  }
-}
-
-export default connect(mapStateToProps)(App);

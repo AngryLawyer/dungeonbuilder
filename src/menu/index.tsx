@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Menu as FoundationMenu, MenuItem, MenuText, Row, TopBar, TopBarLeft }  from 'react-foundation';
 import { connect } from 'react-redux';
 
-import { openModal } from '../actions';
+import { openModal } from '../modals/actions';
 
 interface DispatchProps {
   openModal: typeof openModal;

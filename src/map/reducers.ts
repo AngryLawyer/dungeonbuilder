@@ -16,7 +16,7 @@ export type MapStore = Readonly<{
   mouse: MouseState,
 }>;
 
-const cellData = repeat(25 * 25, true);
+const cellData = repeat(25 * 25, BrushType.WALL);
 
 const map: MapData = {
   cells: cellData,
@@ -32,7 +32,7 @@ export function mapReducer(state: MapData = map, action: AnyAction) {
         ...state,
         cells: state.cells.map((cell, cellIndex) => {
           if (indexes.indexOf(cellIndex) > -1) {
-            return false;
+            return action.payload.brushType;
           }
           return cell;
         })

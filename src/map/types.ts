@@ -1,14 +1,9 @@
 export const CELL_SIZE = 12;
 
-export enum BrushType {
-  STONE = 'STONE',
-  FLOOR = 'FLOOR',
-};
-
 export type MapData = Readonly<{
   width: number;
   height: number;
-  cells: ReadonlyArray<boolean>
+  cells: ReadonlyArray<BrushType>
 }>;
 
 export type GridRef = Readonly<{

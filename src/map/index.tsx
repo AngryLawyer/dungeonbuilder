@@ -11,11 +11,12 @@ import {
 import Brushes from './brushes';
 import { cursor, floor, wall } from './draw';
 import Tools from './tools';
-import { CELL_SIZE, GridRef, MapData, MouseState } from './types';
+import { BrushType, CELL_SIZE, GridRef, MapData, MouseState } from './types';
 
 interface StateProps {
   mapData: MapData;
   mouse: MouseState;
+  brush: BrushType;
 }
 
 interface DispatchProps {
@@ -71,7 +72,7 @@ class Map extends React.PureComponent<Props> {
         const y = Math.floor(index / mapData.height);
         if (currentPos && currentPos.x === x && currentPos.y === y) {
           cursor(ctx, x, y);
-        } else if (cell) {
+        } else if (cell === BrushType.WALL) {
           wall(ctx, x, y);
         } else {
           floor(ctx, x, y);
@@ -82,7 +83,7 @@ class Map extends React.PureComponent<Props> {
 
   private onMouseDown = (event: React.MouseEvent) => {
     const cell = this.getGridRefFromClick(this.canvas.current!, event);
-    this.props.setCells([cell], true);
+    this.props.setCells([cell], this.props.brush);
     this.props.mouseDown();
   }
 
@@ -104,7 +105,7 @@ class Map extends React.PureComponent<Props> {
     if (!currentPos || cell.x !== currentPos.x || cell.y !== currentPos.y) {
       this.props.setMousePos(cell);
       if (this.props.mouse.mouseDown) {
-        this.props.setCells([cell], true);
+        this.props.setCells([cell], this.props.brush);
       }
     }
   }
@@ -112,6 +113,7 @@ class Map extends React.PureComponent<Props> {
 
 function mapStateToProps(state: Store): StateProps {
   return {
+    brush: state.map.brush,
     mapData: state.map.map,
     mouse: state.map.mouse,
   }

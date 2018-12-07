@@ -20,3 +20,8 @@ export enum BrushType {
   WALL = 'WALL',
   FLOOR = 'FLOOR',
 }
+
+export enum ToolType {
+  BRUSH = 'BRUSH',
+  RECTANGLE = 'RECTANGLE',
+}

@@ -6,12 +6,14 @@ import {
   SET_BRUSH,
   SET_CELLS,
   SET_MOUSE_POS,
+  SET_TOOL,
 } from './actions';
-import { BrushType, GridRef, MapData, MouseState } from './types';
+import { BrushType, GridRef, MapData, MouseState, ToolType } from './types';
 import { gridRefToIndex } from './utils';
 
 export type MapStore = Readonly<{
   brush: BrushType,
+  tool: ToolType,
   map: MapData,
   mouse: MouseState,
 }>;
@@ -73,8 +75,18 @@ export function brushReducer(state: BrushType = BrushType.FLOOR, action: AnyActi
   }
 }
 
+export function toolReducer(state: ToolType = ToolType.BRUSH, action: AnyAction) {
+  switch (action.type) {
+    case SET_TOOL:
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers<MapStore>({
   brush: brushReducer,
   map: mapReducer,
   mouse: mouseReducer,
+  tool: toolReducer,
 });

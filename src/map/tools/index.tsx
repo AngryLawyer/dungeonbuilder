@@ -1,17 +1,40 @@
 import * as React from 'react';
-import { Button, ButtonGroup } from 'react-foundation';
+import { ButtonGroup } from 'react-foundation';
 import { IoIosBrush, IoIosQrScanner } from 'react-icons/io';
 import { connect } from 'react-redux';
+import { Store } from '../../reducers';
+import { setTool } from '../actions';
+import { ToolType } from '../types';
+import { Tool } from './tool';
 
-class Tools extends React.PureComponent {
+interface DispatchProps {
+  setTool: typeof setTool,
+}
+
+interface StateProps {
+  tool: ToolType,
+}
+
+type Props = DispatchProps & StateProps;
+
+class Tools extends React.PureComponent<Props> {
   public render () {
     return (
       <ButtonGroup>
-        <Button><IoIosBrush/></Button>
-        <Button><IoIosQrScanner/></Button>
+        {
+          [{element: IoIosBrush, type: ToolType.BRUSH}, {element: IoIosQrScanner, type:ToolType.RECTANGLE}].map(brushData =>
+            <Tool key={brushData.type} element={brushData.element} tool={brushData.type} onClick={this.props.setTool} selected={brushData.type === this.props.tool}/>
+          )
+        }
       </ButtonGroup>
     );
   }
 }
 
-export default connect()(Tools);
+function mapStateToProps(store: Store): StateProps {
+  return {
+    tool: store.map.tool,
+  }
+}
+
+export default connect(mapStateToProps, { setTool })(Tools);

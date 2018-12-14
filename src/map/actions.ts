@@ -30,8 +30,9 @@ export function mouseUp() {
 
 export const MOUSE_DOWN = 'MOUSE_DOWN';
 
-export function mouseDown() {
+export function mouseDown(ref: GridRef) {
   return {
+    payload: ref,
     type: MOUSE_DOWN,
   };
 }

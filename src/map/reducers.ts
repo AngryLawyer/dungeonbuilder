@@ -44,7 +44,7 @@ export function mapReducer(state: MapData = map, action: AnyAction) {
   }
 }
 
-export function mouseReducer(state: MouseState = { current: null, mouseDown: false }, action: AnyAction) {
+export function mouseReducer(state: MouseState = { current: null, mouseDown: null }, action: AnyAction) {
   switch (action.type) {
     case SET_MOUSE_POS:
       return {
@@ -54,12 +54,12 @@ export function mouseReducer(state: MouseState = { current: null, mouseDown: fal
     case MOUSE_DOWN:
       return {
         ...state,
-        mouseDown: true,
+        mouseDown: action.payload,
       };
     case MOUSE_UP:
       return {
         ...state,
-        mouseDown: false,
+        mouseDown: null,
       };
     default:
       return state;

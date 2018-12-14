@@ -11,12 +11,13 @@ import {
 import Brushes from './brushes';
 import { cursor, floor, wall } from './draw';
 import Tools from './tools';
-import { BrushType, CELL_SIZE, GridRef, MapData, MouseState } from './types';
+import { BrushType, CELL_SIZE, GridRef, MapData, MouseState, ToolType } from './types';
 
 interface StateProps {
   mapData: MapData;
   mouse: MouseState;
   brush: BrushType;
+  tool: ToolType;
 }
 
 interface DispatchProps {
@@ -66,11 +67,14 @@ class Map extends React.PureComponent<Props> {
     const ctx = this.canvas.current!.getContext('2d');
     if (ctx) {
       const currentPos = props.mouse.current;
-      const { mapData } = props;
+      const { mapData, tool, mouse } = props;
       mapData.cells.forEach((cell, index) => {
         const x = index % mapData.width;
         const y = Math.floor(index / mapData.height);
-        if (currentPos && currentPos.x === x && currentPos.y === y) {
+
+        if (tool === ToolType.RECTANGLE && mouse.mouseDown) {
+          // pass
+        } else if (tool === ToolType.BRUSH && currentPos && currentPos.x === x && currentPos.y === y) {
           cursor(ctx, x, y);
         } else if (cell === BrushType.WALL) {
           wall(ctx, x, y);
@@ -83,8 +87,10 @@ class Map extends React.PureComponent<Props> {
 
   private onMouseDown = (event: React.MouseEvent) => {
     const cell = this.getGridRefFromClick(this.canvas.current!, event);
-    this.props.setCells([cell], this.props.brush);
-    this.props.mouseDown();
+    this.props.mouseDown(cell);
+    if (this.props.tool === ToolType.BRUSH) {
+      this.props.setCells([cell], this.props.brush);
+    }
   }
 
   private onMouseUp = (event: React.MouseEvent) => {
@@ -104,7 +110,7 @@ class Map extends React.PureComponent<Props> {
     const currentPos = this.props.mouse.current;
     if (!currentPos || cell.x !== currentPos.x || cell.y !== currentPos.y) {
       this.props.setMousePos(cell);
-      if (this.props.mouse.mouseDown) {
+      if (this.props.tool === ToolType.BRUSH && this.props.mouse.mouseDown) {
         this.props.setCells([cell], this.props.brush);
       }
     }
@@ -116,6 +122,7 @@ function mapStateToProps(state: Store): StateProps {
     brush: state.map.brush,
     mapData: state.map.map,
     mouse: state.map.mouse,
+    tool: state.map.tool,
   }
 }
 

@@ -11,6 +11,11 @@ export type GridRef = Readonly<{
   y: number;
 }>;
 
+export type Square = Readonly<{
+  topLeft: GridRef;
+  bottomRight: GridRef;
+}>;
+
 export type MouseState = Readonly<{
   mouseDown: GridRef | null;
   current: GridRef | null;

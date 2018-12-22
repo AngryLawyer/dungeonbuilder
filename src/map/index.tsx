@@ -12,6 +12,7 @@ import Brushes from './brushes';
 import { cursor, floor, wall } from './draw';
 import Tools from './tools';
 import { BrushType, CELL_SIZE, GridRef, MapData, MouseState, ToolType } from './types';
+import { gridRefInside, makeSquare, squareToCells } from './utils';
 
 interface StateProps {
   mapData: MapData;
@@ -72,8 +73,8 @@ class Map extends React.PureComponent<Props> {
         const x = index % mapData.width;
         const y = Math.floor(index / mapData.height);
 
-        if (tool === ToolType.RECTANGLE && mouse.mouseDown) {
-          // pass
+        if (tool === ToolType.RECTANGLE && mouse.mouseDown && currentPos && gridRefInside({x, y}, makeSquare(mouse.mouseDown, currentPos))) {
+          cursor(ctx, x, y);
         } else if (tool === ToolType.BRUSH && currentPos && currentPos.x === x && currentPos.y === y) {
           cursor(ctx, x, y);
         } else if (cell === BrushType.WALL) {
@@ -94,6 +95,11 @@ class Map extends React.PureComponent<Props> {
   }
 
   private onMouseUp = (event: React.MouseEvent) => {
+    if (this.props.tool === ToolType.RECTANGLE) {
+      if (this.props.mouse.current && this.props.mouse.mouseDown) {
+        this.props.setCells(squareToCells(makeSquare(this.props.mouse.mouseDown, this.props.mouse.current)), this.props.brush);
+      };
+    }
     this.props.mouseUp();
   }
 

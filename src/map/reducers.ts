@@ -3,6 +3,7 @@ import { repeat } from '../utils';
 import {
   MOUSE_DOWN,
   MOUSE_UP,
+  NEW_MAP,
   SET_BRUSH,
   SET_CELLS,
   SET_MOUSE_POS,
@@ -39,6 +40,13 @@ export function mapReducer(state: MapData = map, action: AnyAction) {
           return cell;
         })
       }
+    case NEW_MAP:
+      return {
+        ...state,
+        cells: repeat(action.payload.width * action.payload.height, BrushType.WALL),
+        height: action.payload.height,
+        width: action.payload.width,
+      };
     default:
       return state;
   }

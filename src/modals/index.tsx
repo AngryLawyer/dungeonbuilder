@@ -6,6 +6,8 @@ import { Store } from '../reducers';
 import { closeModal } from './actions';
 import { CurrentModal } from './types';
 
+import NewModal from './new';
+
 interface ConnectedProps {
   currentModal: CurrentModal;
 }
@@ -25,7 +27,7 @@ class Modals extends React.PureComponent<Props> {
         size="medium"
         closeModal={this.props.closeModal}
       >
-        Hi there
+        <NewModal/>
       </Modal>
     );
   }

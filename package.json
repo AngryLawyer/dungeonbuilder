@@ -5,6 +5,7 @@
   "dependencies": {
     "@types/react-foundation": "^0.9.3",
     "@types/react-redux": "^6.0.9",
+    "@types/redux-form": "^7.4.13",
     "foundation-sites": "^6.5.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
@@ -14,6 +15,7 @@
     "react-redux": "^5.1.1",
     "react-scripts-ts": "3.1.0",
     "redux": "^4.0.1",
+    "redux-form": "^8.0.4",
     "reselect": "^4.0.0"
   },
   "scripts": {

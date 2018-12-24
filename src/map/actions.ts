@@ -52,3 +52,11 @@ export function setTool(tool: ToolType) {
     type: SET_TOOL,
   };
 }
+
+export const NEW_MAP = 'NEW_MAP';
+export function newMap(width: number, height: number) {
+  return {
+    payload: { width, height },
+    type: NEW_MAP,
+  }
+}

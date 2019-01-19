@@ -17,12 +17,18 @@ interface StateProps {
 
 type Props = DispatchProps & StateProps;
 
+const BRUSH_TYPES = [
+  {element: IoMdSquareOutline, type: BrushType.FLOOR},
+  {element: IoMdSquare, type: BrushType.WALL},
+  {element: IoMdSquare, type: BrushType.DOOR}
+];
+
 class Brushes extends React.PureComponent<Props> {
   public render () {
     return (
       <ButtonGroup>
         {
-          [{element: IoMdSquareOutline, type: BrushType.FLOOR}, {element: IoMdSquare, type:BrushType.WALL}].map(brushData =>
+          BRUSH_TYPES.map(brushData =>
             <Brush key={brushData.type} element={brushData.element} brush={brushData.type} onClick={this.props.setBrush} selected={brushData.type === this.props.brush}/>
           )
         }

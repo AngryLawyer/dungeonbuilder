@@ -9,7 +9,7 @@ import {
   setMousePos,
 } from './actions';
 import Brushes from './brushes';
-import { cursor, floor, wall } from './draw';
+import { cursor, door, floor, wall } from './draw';
 import Tools from './tools';
 import { BrushType, CELL_SIZE, GridRef, MapData, MouseState, ToolType } from './types';
 import { gridRefInside, makeSquare, squareToCells } from './utils';
@@ -79,6 +79,8 @@ class Map extends React.PureComponent<Props> {
           cursor(ctx, x, y);
         } else if (cell === BrushType.WALL) {
           wall(ctx, x, y);
+        } else if (cell === BrushType.DOOR) {
+          door(ctx, x, y);
         } else {
           floor(ctx, x, y);
         }

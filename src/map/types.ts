@@ -1,4 +1,5 @@
 export const CELL_SIZE = 12;
+export const WALL_THICKNESS = CELL_SIZE / 6;
 
 export type MapData = Readonly<{
   width: number;
@@ -24,6 +25,7 @@ export type MouseState = Readonly<{
 export enum BrushType {
   WALL = 'WALL',
   FLOOR = 'FLOOR',
+  DOOR = 'DOOR',
 }
 
 export enum ToolType {
